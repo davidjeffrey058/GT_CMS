@@ -1,0 +1,36 @@
+{
+  "name": "gtcms",
+  "version": "1.0.0",
+  "description": "Church management system for Grace Temple Assemblies of God church",
+  "keywords": [
+    "church",
+    "AG",
+    "Assemblies",
+    "of",
+    "God",
+    "Grace",
+    "Temple"
+  ],
+  "homepage": "https://github.com/davidjeffrey058/GT_CMS#readme",
+  "bugs": {
+    "url": "https://github.com/davidjeffrey058/GT_CMS/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidjeffrey058/GT_CMS.git"
+  },
+  "license": "ISC",
+  "author": "David Jeffrey",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcrpyt": "^2.0.0",
+    "dotenv": "^17.3.1",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.3.3"
+  }
+}
