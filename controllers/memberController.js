@@ -1,4 +1,4 @@
-const memberService = require('../services/member.service');
+const memberService = require('../services/memberService');
 
 exports.createMember = async (req, res) => {
   try {
@@ -37,7 +37,14 @@ exports.getMemberById = async (req, res) => {
 
 exports.updateMember = async (req, res) => {
   try {
-    const member = await memberService.updateMember(req.params.id, req.body);
+    const data = req.body
+
+    if(data.gender){
+      console.log(data.gender)
+      if(data.gender != 'male' && data.gender != 'female') throw Error('Invalid gender value')
+    }
+
+    const member = await memberService.updateMember(req.params.id, data);
 
     if (!member) {
       return res.status(404).json({ error: 'Member not found' });
@@ -52,6 +59,7 @@ exports.updateMember = async (req, res) => {
 
 exports.deleteMember = async (req, res) => {
   try {
+    console.log(req.params.id)
     const member = await memberService.deleteMember(req.params.id);
 
     if (!member) {

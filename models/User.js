@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: [true, 'Password is required'],
+    minlength: [6, 'Minimum password length is 6 characters']
   },
   role: {
     type: String,
@@ -18,17 +19,16 @@ const userSchema = new mongoose.Schema({
   },
   member_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Member'
+    ref: 'Member',
+    unique: true
   }
 }, { timestamps: true });
 
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
-
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+userSchema.pre('save', async function() {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt)
 });
 
 // Compare password

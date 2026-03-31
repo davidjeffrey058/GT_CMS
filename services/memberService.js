@@ -1,4 +1,4 @@
-const Member = require('../models/member.model');
+const Member = require('../models/Member');
 
 exports.createMember = async (data) => {
   return await Member.create(data);
