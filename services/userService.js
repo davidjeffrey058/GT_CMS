@@ -1,7 +1,18 @@
 const User = require('../models/User');
-
+const mongoose = require('mongoose')
+const Member = require('../models/Member')
 // Create user
 exports.createUser = async (data) => {
+  // const mid = data.member_id;
+  console.log(mid)
+  if(mid){
+    if (!mongoose.Types.ObjectId.isValid(mid)) {
+      throw Error('invalid member id')
+    }
+    const member = await Member.findById(mid)
+    if(!member) throw Error('member not found')
+  }
+
   return await User.create(data);
 };
 
