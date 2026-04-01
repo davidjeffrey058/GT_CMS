@@ -1,0 +1,1 @@
+exports.roles = ['admin', 'pastor', 'finance', 'staff'];

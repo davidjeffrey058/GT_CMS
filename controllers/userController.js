@@ -3,13 +3,15 @@ const {handleErrors} = require('../controllers/authController');
 
 exports.createUser = async (req, res) => {
   try {
-    
+
     const user = await userService.createUser(req.body);
     res.status(201).json(user);
+
   } catch (err) {
-    // console.log(err.errors)
-    const errors = handleErrors(err)
-    res.status(400).json({errors});
+    
+    console.log(err)
+    const error = handleErrors(err)
+    res.status(400).json({error});
   }
 };
 

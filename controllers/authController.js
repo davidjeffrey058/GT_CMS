@@ -20,8 +20,6 @@ const authService = require('../services/authService');
       errors.password = 'That password is incorrect'
     }
 
-    
-
     // member id not found
     if(err.message.includes('member not found')){
       errors = 'Member not found'

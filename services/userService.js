@@ -1,16 +1,20 @@
 const User = require('../models/User');
-const mongoose = require('mongoose')
-const Member = require('../models/Member')
+const mongoose = require('mongoose');
+const Member = require('../models/Member');
+const {roles} = require('../constants/enum');
+const { isEmail } = require('validator');
+
 // Create user
 exports.createUser = async (data) => {
   const mid = data.member_id;
   // console.log(mid)
-  if(mid){
-    if (!mongoose.Types.ObjectId.isValid(mid)) {
-      throw Error('invalid member id')
-    }
+  if(mid !== undefined){
+    if (!mongoose.Types.ObjectId.isValid(mid)) throw Error('invalid member id');
     const member = await Member.findById(mid)
     if(!member) throw Error('member not found')
+
+    // const user = await User.findOne({member_id: mid})
+    // if(user) throw Error('')
   }
 
   return await User.create(data);
@@ -35,7 +39,7 @@ exports.getUsers = async (query) => {
 
   // 🔍 Search by username
   if (search) {
-    filter.username = { $regex: search, $options: 'i' };
+    filter.email = { $regex: search, $options: 'i' };
   }
 
   const skip = (page - 1) * limit;
@@ -69,6 +73,14 @@ exports.getUserById = async (id) => {
 
 // Update user
 exports.updateUser = async (id, data) => {
+  if(data.role){
+    if(!roles.includes(data.role)) throw Error('Invalid role');
+  }
+
+  if(data.email){
+    if(!isEmail(data.email)) throw Error('Invalid email');
+  }
+
   return await User.findByIdAndUpdate(id, data, { new: true })
     .select('-password');
 };

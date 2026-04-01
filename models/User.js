@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const { isEmail } = require('validator');
+const { roles } = require('../constants/enum')
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -19,7 +20,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: {
-      values: ['admin', 'pastor', 'finance', 'staff'],
+      values: roles,
       message: '{VALUE} is not a valid role'
     },
     default: 'staff'
