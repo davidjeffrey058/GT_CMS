@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 const Member = require('../models/Member')
 // Create user
 exports.createUser = async (data) => {
-  // const mid = data.member_id;
-  console.log(mid)
+  const mid = data.member_id;
+  // console.log(mid)
   if(mid){
     if (!mongoose.Types.ObjectId.isValid(mid)) {
       throw Error('invalid member id')
