@@ -1,6 +1,7 @@
 const authService = require('../services/authService');
+const jwt = require('jsonwebtoken');
 
- module.exports.handleErrors = (err) => {
+ exports.handleErrors = (err) => {
     // console.log(err.message, err.code)
     let errors = { email: '', password: ''};
 
@@ -41,16 +42,26 @@ const authService = require('../services/authService');
 
     return errors;
 }
+const maxAge = 24 * 60 * 60;
 
+const createToken = (id) => {
+    return jwt.sign({id}, process.env.JWT_SECRET, {
+        expiresIn: maxAge
+    });
+}
 
-module.exports.login = async (req, res) => {
+exports.login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    const result = await authService.login(username, password);
-
-    res.json(result);
+    const user = await authService.login(email, password);
+    const token = createToken(user._id);
+    res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
+    res.json({user: user._id});
+    
   } catch (err) {
-    res.status(401).json({ error: err.message });
+    // console.log(err)
+    const error = this.handleErrors(err)
+    res.status(401).json({ error });
   }
 };

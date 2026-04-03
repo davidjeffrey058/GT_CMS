@@ -4,20 +4,22 @@ require('dotenv').config();
 const memberRoutes = require('./routes/memberRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
+app.use(cookieParser());
 
 mongoose.connect(process.env.DBURI)
 .then((result) => {
-    console.log('Connected')
-    app.listen(process.env.PORT)
+    console.log('Connected');
+    app.listen(process.env.PORT);
 })
 .catch(err => console.log(err));
 
 app.get('/', (req, res) => {
-    res.json({mssg: 'Welcome to GTCMS'})
+    res.json({mssg: 'Welcome to GTCMS'});
 });
 
 app.use('/api/members', memberRoutes);
