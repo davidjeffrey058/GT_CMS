@@ -5,8 +5,12 @@ const memberRoutes = require('./routes/memberRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
+
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser());
