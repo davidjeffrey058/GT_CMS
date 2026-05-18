@@ -57,7 +57,7 @@ exports.login = async (req, res) => {
     const user = await authService.login(email, password);
     const token = createToken(user._id);
     res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
-    res.json({user: user._id});
+    res.json({email, token});
     
   } catch (err) {
     // console.log(err)
@@ -65,3 +65,8 @@ exports.login = async (req, res) => {
     res.status(401).json({ error });
   }
 };
+
+exports.logout = (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.json({ message: 'Logged out successfully' });
+}
